@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mintmade</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-purple: #483056; 
+            --brand-light: #F9F9F9;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #333;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .bg-brand-purple {
+            background-color: var(--brand-purple);
+            color: white;
+        }
+
+        .text-brand-purple {
+            color: var(--brand-purple);
+        }
+
+        .btn-brand {
+            background-color: var(--brand-purple);
+            color: white;
+            border-radius: 0;
+            padding: 10px 30px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        .btn-brand:hover {
+            background-color: #2c1a36;
+            color: white;
+        }
+
+        .hero-placeholder {
+            background-color: #ddd;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://placehold.co/1920x1080/e0e0e0/999999?text=Hero+Image:+Model+in+White+Shirt');
+            background-size: cover;
+            position: relative;
+        }
+
+        .image-placeholder {
+            background-color: #eee;
+            min-height: 500px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .content-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body id="fashion-app">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand font-monospace fw-bold" href="#">MINTMADE - ESTELLA CO.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Stories</a></li>
+                    <li class="nav-item ms-3" id="auth-button-container">
+                        <button id="auth-btn" class="btn btn-outline-dark btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Log In
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-placeholder text-center text-white">
+        <div class="container" style="z-index: 2; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+            <h1 class="display-3 fst-italic mb-4">Quick and hassle-<br>free shopping</h1>
+            <a href="#" class="btn btn-light rounded-0 px-5 py-2">SHOP NOW</a>
+        </div>
+    </header>
+
+    <section class="container-fluid bg-brand-purple py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <h2 class="display-5 text-white">An extension <br>of your closet.</h2>
+                </div>
+                <div class="col-md-6 offset-md-1 text-white-50">
+                    <p class="lead">Mintmade fashion offers same-day or next-day delivery within our service areas.</p>
+                    <p class="small text-uppercase mt-4 text-white">Shop for whatever you feel like wearing<br>and get it within 24 hours!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid p-0">
+        
+        <div class="row g-0">
+            <div class="col-md-6">
+                <div class="image-placeholder" style="background-image: url('https://placehold.co/800x800/d4c5b0/ffffff?text=Image:+Clothes+for+Her');"></div>
+            </div>
+            <div class="col-md-6 content-center bg-white">
+                <h2 class="display-4 mb-3">Clothes <br>for Her</h2>
+                <p class="text-muted mb-4">Shop for classic or trendy pieces<br>you can wear every day.</p>
+                <button class="btn btn-brand">SHOP NOW</button>
+            </div>
+        </div>
+
+        <div class="row g-0 flex-row-reverse">
+            <div class="col-md-6">
+                <div class="image-placeholder" style="background-image: url('https://placehold.co/800x800/e0e0e0/555555?text=Image:+Clothes+for+Him');"></div>
+            </div>
+            <div class="col-md-6 content-center bg-white">
+                <h2 class="display-4 mb-3">Clothes <br>for Him</h2>
+                <p class="text-muted mb-4">Look dashing while on the go<br>with our casual wear items.</p>
+                <button class="btn btn-brand">SHOP NOW</button>
+            </div>
+        </div>
+
+        <div class="row g-0">
+            <div class="col-md-6">
+                <div class="image-placeholder" style="background-image: url('https://placehold.co/800x800/6f4e37/ffffff?text=Image:+Accessories');"></div>
+            </div>
+            <div class="col-md-6 content-center bg-white">
+                <h2 class="display-4 mb-3">Accessories</h2>
+                <p class="text-muted mb-4">Add shoes, bags, and more to <br>complement your look.</p>
+                <button class="btn btn-brand">SHOP NOW</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="bg-brand-purple py-5 text-center">
+        <div class="container">
+            <h3 class="text-white mb-5">Look who's wearing Minimalist</h3>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <img src="https://placehold.co/400x500/553366/ffffff?text=Model+1" class="img-fluid" alt="Lookbook 1">
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="https://placehold.co/400x500/664477/ffffff?text=Model+2" class="img-fluid" alt="Lookbook 2">
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="https://placehold.co/400x500/553366/ffffff?text=Model+3" class="img-fluid" alt="Lookbook 3">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid p-0 bg-white">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-6">
+                 <div class="image-placeholder" style="height: 600px; background-image: url('https://placehold.co/800x800/8f9e8b/ffffff?text=Detail+Shot');"></div>
+            </div>
+            <div class="col-md-6 p-5">
+                <div class="p-lg-5">
+                    <h2 class="mb-4">Why people love to shop<br>at Mintmade Fashion</h2>
+                    <ul class="list-unstyled lh-lg text-muted">
+                        <li class="mb-2">✓ Order before 2 pm and get your purchase within the day.</li>
+                        <li class="mb-2">✓ Not your size? Avail of our hassle-free return policy.</li>
+                        <li class="mb-2">✓ Get 24/7 customer support.</li>
+                        <li class="mb-2">✓ We support contactless payment and cash on delivery.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-header bg-brand-purple text-white rounded-0">
+                    <h5 class="modal-title">Welcome Back</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" class="form-control rounded-0" id="emailInput" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control rounded-0" id="passwordInput" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-brand">LOG IN</button>
+                        </div>
+                    </form>
+                    <div id="loginMessage" class="mt-3 text-center text-danger"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>
