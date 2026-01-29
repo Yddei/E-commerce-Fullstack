@@ -52,6 +52,7 @@
             justify-content: center;
             background-image: url('https://placehold.co/1920x1080/e0e0e0/999999?text=Hero+Image:+Model+in+White+Shirt');
             background-size: cover;
+            background-position: center;
             position: relative;
         }
 
@@ -79,21 +80,48 @@
 </head>
 
 <body id="fashion-app">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title font-serif" id="cartSidebarLabel">Your Cart</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cart-items-container" class="flex-grow-1 overflow-auto mb-3">
+                <div class="text-center text-muted mt-5">Your cart is empty.</div>
+            </div>
+            
+            <div class="border-top pt-3">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="fw-bold">Subtotal:</span>
+                    <span class="fw-bold" id="cart-total">$0.00</span>
+                </div>
+                <a href="/checkout.html" class="btn btn-dark w-100 rounded-0 py-3 text-uppercase">Checkout</a>
+            </div>
+        </div>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand font-monospace fw-bold" href="#">MINTMADE - ESTELLA CO.</a>
+            <a class="navbar-brand font-monospace fw-bold" href="/">MINTMADE - ESTELLA CO.</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#">Shop</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Stories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/shop">Shop</a></li>
                     <li class="nav-item ms-3" id="auth-button-container">
-                        <button id="auth-btn" class="btn btn-outline-dark btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            Log In
-                        </button>
+                        <button id="auth-btn" class="btn btn-outline-dark btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</button>
                     </li>
+                    <li class="nav-item ms-2" id="register-nav-item">
+                        <button class="btn btn-dark btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                    </li>
+                    <li class="nav-item ms-2">
+                    <button class="btn btn-link nav-link position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar">
+                        Cart
+                        <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem; display: none;">
+                            0
+                        </span>
+                    </button>
+                </li>
                 </ul>
             </div>
         </div>
@@ -124,7 +152,7 @@
         
         <div class="row g-0">
             <div class="col-md-6">
-                <div class="image-placeholder" style="background-image: url('https://placehold.co/800x800/d4c5b0/ffffff?text=Image:+Clothes+for+Her');"></div>
+                <div class="image-placeholder" style="background-image: url('/img/her.png'); height: 800px;"></div>
             </div>
             <div class="col-md-6 content-center bg-white">
                 <h2 class="display-4 mb-3">Clothes <br>for Her</h2>
@@ -135,7 +163,7 @@
 
         <div class="row g-0 flex-row-reverse">
             <div class="col-md-6">
-                <div class="image-placeholder" style="background-image: url('https://placehold.co/800x800/e0e0e0/555555?text=Image:+Clothes+for+Him');"></div>
+                <div class="image-placeholder" style="background-image: url('/img/him.png'); height: 800px;"></div>
             </div>
             <div class="col-md-6 content-center bg-white">
                 <h2 class="display-4 mb-3">Clothes <br>for Him</h2>
@@ -146,7 +174,7 @@
 
         <div class="row g-0">
             <div class="col-md-6">
-                <div class="image-placeholder" style="background-image: url('https://placehold.co/800x800/6f4e37/ffffff?text=Image:+Accessories');"></div>
+                <div class="image-placeholder" style="background-image: url('/img/acc.png'); height: 800px;"></div>
             </div>
             <div class="col-md-6 content-center bg-white">
                 <h2 class="display-4 mb-3">Accessories</h2>
@@ -158,16 +186,16 @@
 
     <section class="bg-brand-purple py-5 text-center">
         <div class="container">
-            <h3 class="text-white mb-5">Look who's wearing Minimalist</h3>
+            <h3 class="text-white mb-5">Look who's wearing Mintmade</h3>
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <img src="https://placehold.co/400x500/553366/ffffff?text=Model+1" class="img-fluid" alt="Lookbook 1">
+                    <img src="\img\1.png" class="img-fluid" alt="Lookbook 1">
                 </div>
                 <div class="col-md-4 mb-4">
-                    <img src="https://placehold.co/400x500/664477/ffffff?text=Model+2" class="img-fluid" alt="Lookbook 2">
+                    <img src="\img\2.png" class="img-fluid" alt="Lookbook 2">
                 </div>
                 <div class="col-md-4 mb-4">
-                    <img src="https://placehold.co/400x500/553366/ffffff?text=Model+3" class="img-fluid" alt="Lookbook 3">
+                    <img src="\img\3.png" class="img-fluid" alt="Lookbook 3">
                 </div>
             </div>
         </div>
@@ -235,9 +263,45 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-header bg-brand-purple text-white rounded-0">
+                    <h5 class="modal-title">Create Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">USERNAME</label>
+                            <input type="text" class="form-control rounded-0" id="regUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">EMAIL ADDRESS</label>
+                            <input type="email" class="form-control rounded-0" id="regEmail" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted small">PASSWORD</label>
+                            <input type="password" class="form-control rounded-0" id="regPassword" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-brand">REGISTER</button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-muted">Already have an account? 
+                            <a href="#" class="text-brand-purple fw-bold text-decoration-none" data-bs-target="#loginModal" data-bs-toggle="modal">Log In</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="./js/main.js"></script>
+    <script src="/js/main.js"></script>
+    
 </body>
 </html>

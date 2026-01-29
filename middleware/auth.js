@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
-const secret = process.env.JWT_SECRET;
 
 const authenticateToken = (req, res, next) => {
+    //secret has to be declared here in case this auth.js file loads before the .env file
+    const secret = process.env.JWT_SECRET; 
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 

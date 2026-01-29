@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Mintmade</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-purple: #483056; 
+            --brand-light: #F9F9F9;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #333;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .bg-brand-purple {
+            background-color: var(--brand-purple);
+            color: white;
+        }
+
+        .text-brand-purple {
+            color: var(--brand-purple);
+        }
+
+        .btn-brand {
+            background-color: var(--brand-purple);
+            color: white;
+            border-radius: 0;
+            padding: 10px 30px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        .btn-brand:hover {
+            background-color: #2c1a36;
+            color: white;
+        }
+
+        .product-card-img {
+            height: 350px;           
+            width: 100%;            
+            object-fit: cover;       
+            object-position: top;    
+        }
+
+        .content-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            text-align: center;
+        }
+
+        .card-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body id="fashion-app">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title font-serif" id="cartSidebarLabel">Your Cart</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cart-items-container" class="flex-grow-1 overflow-auto mb-3">
+                <div class="text-center text-muted mt-5">Your cart is empty.</div>
+            </div>
+            
+            <div class="border-top pt-3">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="fw-bold">Subtotal:</span>
+                    <span class="fw-bold" id="cart-total">$0.00</span>
+                </div>
+                <a href="/checkout.html" class="btn btn-dark w-100 rounded-0 py-3 text-uppercase">Checkout</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand font-monospace fw-bold" href="/">MINTMADE - ESTELLA CO.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="/shop">Shop</a></li>
+                    <li class="nav-item ms-3" id="auth-button-container">
+                        <button id="auth-btn" class="btn btn-outline-dark btn-sm rounded-0">Log In</button>
+                    </li>
+                    <li class="nav-item ms-2" id="register-nav-item">
+                        <button class="btn btn-dark btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <button class="btn btn-link nav-link position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar">
+                            Cart
+                            <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem; display: none;">
+                                0
+                            </span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <h1 class="display-4 text-center mb-5">The Collection</h1>
+        
+        <div class="row g-3 justify-content-center mb-5">
+            <div class="col-md-5">
+                <input type="text" id="searchInput" class="form-control form-control-lg rounded-0" placeholder="Search products...">
+            </div>
+            
+            <div class="col-md-7 text-center text-md-start">
+                <div class="btn-group" role="group" aria-label="Category Filters">
+                    <input type="radio" class="btn-check" name="category" id="cat-all" value="all" checked>
+                    <label class="btn btn-outline-dark rounded-0 px-4" for="cat-all">All</label>
+
+                    <input type="radio" class="btn-check" name="category" id="cat-women" value="women">
+                    <label class="btn btn-outline-dark rounded-0 px-4" for="cat-women">Women</label>
+
+                    <input type="radio" class="btn-check" name="category" id="cat-men" value="men">
+                    <label class="btn btn-outline-dark rounded-0 px-4" for="cat-men">Men</label>
+
+                    <input type="radio" class="btn-check" name="category" id="cat-accessories" value="accessories">
+                    <label class="btn btn-outline-dark rounded-0 px-4" for="cat-accessories">Accessories</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="product-grid" class="row g-4">
+            <div class="text-center text-muted py-5">Loading products...</div>
+        </div>
+    </div>
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <img id="modal-img" src="" class="img-fluid h-100" style="object-fit: cover; min-height: 400px;">
+                        </div>
+                        <div class="col-md-6 p-5 d-flex flex-column justify-content-center">
+                            <h2 id="modal-title" class="font-serif display-6 mb-2"></h2>
+                            <p id="modal-price" class="text-muted lead mb-4"></p>
+                            <p class="small text-muted mb-4">Description goes here. 100% Cotton. Made in Italy.</p>
+                            <button class="btn btn-dark rounded-0 py-3">ADD TO CART</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-header bg-brand-purple text-white rounded-0">
+                    <h5 class="modal-title">Welcome Back</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" class="form-control rounded-0" id="emailInput" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control rounded-0" id="passwordInput" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-brand">LOG IN</button>
+                        </div>
+                    </form>
+                    <div id="loginMessage" class="mt-3 text-center text-danger"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-header bg-brand-purple text-white rounded-0">
+                    <h5 class="modal-title">Create Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">USERNAME</label>
+                            <input type="text" class="form-control rounded-0" id="regUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">EMAIL ADDRESS</label>
+                            <input type="email" class="form-control rounded-0" id="regEmail" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted small">PASSWORD</label>
+                            <input type="password" class="form-control rounded-0" id="regPassword" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-brand">REGISTER</button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-muted">Already have an account? 
+                            <a href="#" class="text-brand-purple fw-bold text-decoration-none" data-bs-target="#loginModal" data-bs-toggle="modal">Log In</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script>
+        let allProducts = [];
+        let currentCategory = 'all';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/items'); 
+                
+                if (!response.ok) throw new Error("Failed to fetch");
+                
+                allProducts = await response.json();
+                renderProducts(allProducts);
+            } 
+            catch (error) {
+                console.error("Error loading products:", error);
+                document.getElementById('product-grid').innerHTML = `
+                    <div class="col-12 text-center text-danger">
+                        Could not load products. Please check if your server is running.
+                    </div>`;
+            }
+        });
+
+        //Default display
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            if (productsToRender.length === 0) {
+                grid.innerHTML = '<div class="col-12 text-center text-muted">No products found.</div>';
+                return;
+            }
+
+            productsToRender.forEach(product => {
+                const image = product.image_url || 'https://placehold.co/400x500/eee/999?text=No+Image';
+                
+                const cardHTML = `
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card border-0 h-100">
+                            <div onclick="showProductDetails(${product.id}, '${product.name}', '${product.price}', '${image}')" style="cursor: pointer; overflow: hidden; background-color: #f8f9fa;">
+                                <img src="${image}" class="card-img-top product-card-img" alt="${product.name}">
+                            </div>
+
+                            <div class="card-body text-center p-3">
+                                <h5 class="card-title fs-6 text-uppercase fw-bold">${product.name}</h5>
+                                <p class="card-text text-muted mb-2">$${product.price}</p>
+                                
+                                <button class="btn btn-sm btn-outline-dark rounded-0 w-100" 
+                                    onclick="event.stopPropagation(); addToCart(${product.id}, '${product.name}', '${product.price}', '${image}')">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        //Filter
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allProducts.filter(product => {
+                const matchesCategory = currentCategory === 'all' || product.category.toLowerCase() === currentCategory;
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+
+            renderProducts(filtered);
+        }
+
+        //Pop Up Modal
+        function showProductDetails(id, name, price, img) {
+            document.getElementById('modal-title').innerText = name;
+            document.getElementById('modal-price').innerText = '$' + price;
+            document.getElementById('modal-img').src = img;
+            const addToCartBtn = document.querySelector('#productModal .btn-dark');
+            addToCartBtn.onclick = function() {
+                addToCart(id, name, price, img);
+                bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
+            };
+            new bootstrap.Modal(document.getElementById('productModal')).show();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterProducts);
+
+        document.querySelectorAll('input[name="category"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                currentCategory = e.target.value;
+                filterProducts();
+            });
+        });
+    </script>
+</body>
+</html>
