@@ -69,31 +69,41 @@ function showToast(message, type = 'success') {
 //Dynamically updates the login or out button
 function updateAuthUI() {
     const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    
     const authBtn = document.getElementById('auth-btn');
     const regItem = document.getElementById('register-nav-item');
-    //LOGGED IN
+    const userDisplay = document.getElementById('user-display'); 
+
+    // LOGGED IN
     if (token) {
+        if (userDisplay) userDisplay.innerText = `Hello, ${username}`;
+
         authBtn.innerText = 'Log Out';
         authBtn.removeAttribute('data-bs-toggle');
         authBtn.removeAttribute('data-bs-target');
+        
         authBtn.onclick = function() {
-            // Remove Token
             localStorage.removeItem('token');
+            localStorage.removeItem('username'); // <--- Clear it on logout!
+            
             showToast('Logged out successfully.', 'success');
             updateAuthUI(); 
         };
+        
         if (regItem) regItem.style.display = 'none';
-
     } 
-    //LOGGED OUT
+    // LOGGED OUT
     else {
+        if (userDisplay) userDisplay.innerText = '';
+
         authBtn.innerText = 'Log In';
         authBtn.setAttribute('data-bs-toggle', 'modal');
         authBtn.setAttribute('data-bs-target', '#loginModal');
         authBtn.onclick = null;
+        
         if (regItem) regItem.style.display = 'block';
     }
-    
 }
 
 //Log in form
@@ -104,7 +114,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const password = document.getElementById('passwordInput').value;
 
     try {
-        const response = await fetch('http://localhost:8000/api/auth/login', {
+        const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -114,6 +124,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         if (response.ok) {
             //Save Token
             localStorage.setItem('token', data.token);
+            localStorage.setItem('username', data.user?.username || 'User');
             const modalEl = document.getElementById('loginModal');
             const modal = bootstrap.Modal.getInstance(modalEl);
             modal.hide();
@@ -121,7 +132,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             updateAuthUI(); 
             
         } 
-        
+        else if (response.status === 429) {
+            showToast("Too many attempts in past 10 minutes. Please wait.", 'error');
+        }
         else {
             showToast(data.message || "Login failed", 'error');
         }

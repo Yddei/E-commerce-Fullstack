@@ -1,5 +1,6 @@
 const db = require('../../db/index.js');
 
+//make order
 exports.createOrder = async (req, res) => {
     //authN, order made by real person
     const userId = req.user.userId;
@@ -62,5 +63,21 @@ exports.createOrder = async (req, res) => {
         await db.query('ROLLBACK');
         console.error("Order Error:", err.message);
         res.status(500).json({ message: "Error placing order" });
+    }
+};
+
+//view orders for admin
+exports.getAllOrders = async (req, res) => {
+    try {
+        const result = await db.query(`
+            SELECT orders.id, users.username, orders.total_amount, orders.status, orders.created_at 
+            FROM orders 
+            JOIN users ON orders.user_id = users.id 
+            ORDER BY orders.created_at DESC
+        `);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error fetching orders" });
     }
 };
