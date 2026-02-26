@@ -185,6 +185,9 @@
                             <label class="form-label">Password</label>
                             <input type="password" class="form-control rounded-0" id="passwordInput" required>
                         </div>
+                        <div class="text-end mb-3 mt-m-2">
+                            <a href="#" class="text-brand-purple small text-decoration-none" data-bs-target="#resetModal" data-bs-toggle="modal">Forgot Password?</a>
+                        </div>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-brand">LOG IN</button>
                         </div>
@@ -224,6 +227,45 @@
                         <small class="text-muted">Already have an account? 
                             <a href="#" class="text-brand-purple fw-bold text-decoration-none" data-bs-target="#loginModal" data-bs-toggle="modal">Log In</a>
                         </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="resetModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-header bg-brand-purple text-white rounded-0">
+                    <h5 class="modal-title">Reset Password</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="resetForm">
+                        <p class="text-muted small mb-4" id="resetInstructions">Enter your email address to receive a 6-digit OTP.</p>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">EMAIL ADDRESS</label>
+                            <input type="email" class="form-control rounded-0" id="resetEmail" required>
+                        </div>
+                        
+                        <div id="otpSection" class="d-none">
+                            <div class="mb-3">
+                                <label class="form-label text-muted small text-brand-purple fw-bold">6-DIGIT OTP</label>
+                                <input type="text" class="form-control rounded-0 border-brand-purple" id="resetOtp" maxlength="6">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label text-muted small">NEW PASSWORD</label>
+                                <input type="password" class="form-control rounded-0" id="resetNewPassword">
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-dark" id="btnSendOtp">SEND OTP</button>
+                            <button type="submit" class="btn btn-brand d-none" id="btnConfirmReset">RESET PASSWORD</button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
                     </div>
                 </div>
             </div>

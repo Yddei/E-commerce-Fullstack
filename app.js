@@ -18,7 +18,7 @@ const allowedOrigins = [
 
 const corsOptions = {
     origin: function (origin, callback) {
-        //Allow requests with no origin (like mobile apps or curl requests)
+        //Allow requests with no origin
         if (!origin) return callback(null, true);
 
         // Origin is in the whitelist
@@ -30,9 +30,9 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Only allow these HTTP verbs
-    allowedHeaders: ['Content-Type', 'Authorization'], // Only allow these headers
-    credentials: true //Allow cookies/sessions
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 };
 
 //Rate limit - preventing ddos, brute force

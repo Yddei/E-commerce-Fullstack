@@ -6,9 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* 
 =====================================================
-Register
+Register, Reset Password
 =====================================================
 */
+//register
 const registerForm = document.getElementById('registerForm');
 
 if (registerForm) {
@@ -51,6 +52,87 @@ if (registerForm) {
         }
     });
 }
+
+
+//reset pw
+const resetForm = document.getElementById('resetForm');
+const btnSendOtp = document.getElementById('btnSendOtp');
+const btnConfirmReset = document.getElementById('btnConfirmReset');
+const otpSection = document.getElementById('otpSection');
+const resetEmailInput = document.getElementById('resetEmail');
+
+if (btnSendOtp) {
+    btnSendOtp.addEventListener('click', async () => {
+        const email = resetEmailInput.value;
+        if (!email) return showToast("Please enter your email", "error");
+
+        try {
+            const res = await fetch('/api/auth/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                showToast("OTP sent.", "success");
+                resetEmailInput.readOnly = true; 
+                otpSection.classList.remove('d-none');
+                btnSendOtp.classList.add('d-none');
+                btnConfirmReset.classList.remove('d-none');
+                document.getElementById('resetInstructions').innerText = "Enter the OTP from your email and your new password.";
+                document.getElementById('resetOtp').required = true;
+                document.getElementById('resetNewPassword').required = true;
+            } 
+            else {
+                showToast(data.message, "error");
+            }
+        } 
+        catch (err) {
+            showToast("Server error.", "error");
+        }
+    });
+}
+
+if (resetForm) {
+    resetForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = resetEmailInput.value;
+        const otp = document.getElementById('resetOtp').value;
+        const newPassword = document.getElementById('resetNewPassword').value;
+
+        try {
+            const response = await fetch('/api/auth/reset-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, otp, newPassword })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                showToast("Password updated! Please log in.", 'success');
+                
+                resetForm.reset();
+                resetEmailInput.readOnly = false;
+                otpSection.classList.add('d-none');
+                btnSendOtp.classList.remove('d-none');
+                btnConfirmReset.classList.add('d-none');
+                document.getElementById('resetInstructions').innerText = "Enter your email address to receive a 6-digit OTP.";
+
+                bootstrap.Modal.getInstance(document.getElementById('resetModal')).hide();
+                new bootstrap.Modal(document.getElementById('loginModal')).show();
+            } 
+            else {
+                showToast(data.message, 'error');
+            }
+        } 
+        catch (err) {
+            showToast("Server error.", 'error');
+        }
+    });
+}
+
 /*
 =====================================================
 Log in, Log out
