@@ -45,7 +45,7 @@ const globalLimiter = rateLimit({
 });
 const loginLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
-    max: 3, // Limit each IP to 10 login attempts per 10mins
+    max: 10, // Limit each IP to x login attempts per 10mins
     message: { message: "Too many login attempts. Please try again after 10 minutes." },
     standardHeaders: true,
     legacyHeaders: false,
@@ -53,7 +53,7 @@ const loginLimiter = rateLimit({
 
 //IMPORT APP
 app.use(express.json());
-app.use(morgan('dev', {
+app.use(morgan(':remote-addr :method :url', {
     stream: { write: (message) => console.log(message.trim()) }
 }));
 app.use(express.static('public'));
@@ -65,16 +65,19 @@ const itemRoutes = require('./modules/items/items.routes.js');
 const orderRoutes = require('./modules/orders/orders.routes.js');
 const adminRoutes = require('./modules/admin/admin.routes.js');
 const reviewRoutes = require('./modules/reviews/reviews.routes.js')
+const ticketRoutes = require('./modules/tickets/ticket.routes.js')
 
 //MOUNT ROUTES
 //ratelimited ones
 app.use('/api/auth/login', loginLimiter);
+//others
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reviews', reviewRoutes)
+app.use('/api/tickets', ticketRoutes)
 
 //FRONT END ROUTES
 //home
@@ -94,12 +97,12 @@ app.get('/reviews', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'reviews.html'));
 });
 
-const sslOptions = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
+const options = {
+    key: fs.readFileSync(path.join(__dirname, 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert.pem'))
 };
 
 //RUN
-https.createServer(sslOptions, app).listen(port, () => {
+https.createServer(options, app).listen(port, () => {
     console.log(`Secure Server running on HTTPS PORT ${port}`);
 });

@@ -109,10 +109,8 @@
                         </div>
                     </div>
                 </div>
+                <h4 class="mb-3">Add New Product</h4>
             <div class="card shadow-sm mb-5 border-0">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">Add New Product</h5>
-                </div>
                 <div class="card-body">
                     <form id="addItemForm" class="row g-3">
                         <div class="col-md-6">
@@ -141,6 +139,26 @@
                     </form>
                 </div>
             </div>
+            <h4 class="mb-3">Customer Tickets</h4>
+            <div class="card shadow-sm border-0 mb-5">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Preview</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTicketTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
             <h4 class="mb-3">Inventory</h4>
             <div class="card shadow-sm border-0 mb-5">
@@ -164,7 +182,21 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="viewTicketModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header bg-brand-purple text-white rounded-0">
+                    <h5 class="modal-title" id="viewTicketCategory">Category</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-1">From: <span id="viewTicketEmail" class="fw-bold"></span></p>
+                    <hr>
+                    <p id="viewTicketFullComment" style="white-space: pre-wrap;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -175,6 +207,7 @@
             //check logged in AND admin
             if (!token) return;
             await checkAdminAccess(token);
+            loadAdminTickets();
         });
         
         //verify access
@@ -282,6 +315,83 @@
             catch (err) {
                 console.error(err);
             }
+        }
+
+        //ticket
+        async function loadAdminTickets() {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/tickets/admin/all', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            const tickets = await response.json();
+            const tbody = document.getElementById('adminTicketTableBody');
+            tbody.innerHTML = '';
+
+            tickets.forEach(ticket => {
+                const truncatedComment = ticket.comment.length > 30 
+                    ? ticket.comment.substring(0, 30) + '...' 
+                    : ticket.comment;
+                const safeTicketData = encodeURIComponent(JSON.stringify(ticket));
+                const statusBadgeClass = ticket.status === 'Open' ? 'bg-warning text-dark' : 'bg-success';
+                const actionButtons = ticket.status === 'Open' 
+                    ? `<button class="btn btn-sm btn-success me-1" onclick="resolveTicket(${ticket.id})">Resolve</button>
+                    <button class="btn btn-sm btn-dark" onclick="openTicketModal('${safeTicketData}')">View</button>`
+                    : `<button class="btn btn-sm btn-dark" onclick="openTicketModal('${safeTicketData}')">View</button>`;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${ticket.email}</td>
+                        <td><span class="badge bg-secondary">${ticket.category}</span></td>
+                        <td><span class="badge ${statusBadgeClass}">${ticket.status}</span></td>
+                        <td>${truncatedComment}</td>
+                        <td>${actionButtons}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function resolveTicket(ticketId) {
+            if (!confirm("Mark this ticket as resolved?")) return;
+
+            const token = localStorage.getItem('token');
+            
+            try {
+                const response = await fetch(`/api/tickets/admin/${ticketId}/status`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify({ status: 'Resolved' })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success: Instantly refresh the table to show the updated status
+                    loadAdminTickets(); 
+                } 
+                else {
+                    // Error: Show a standard browser alert
+                    alert(data.message || "Failed to resolve ticket");
+                }
+            } 
+            catch (err) {
+                console.error(err);
+                alert("Server error. Please check the console.");
+            }
+        }
+
+        //ticket modal
+        function openTicketModal(encodedData) {
+            const ticket = JSON.parse(decodeURIComponent(encodedData));
+            
+            document.getElementById('viewTicketCategory').innerText = ticket.category;
+            document.getElementById('viewTicketEmail').innerText = ticket.email;
+            document.getElementById('viewTicketFullComment').innerText = ticket.comment;
+            
+            new bootstrap.Modal(document.getElementById('viewTicketModal')).show();
         }
 
         //dashboard

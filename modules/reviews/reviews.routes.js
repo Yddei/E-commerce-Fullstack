@@ -15,4 +15,5 @@ router.post('/', authenticateToken, reviewsController.addReview);
 //only admin can delete
 router.delete('/:id', authenticateToken, checkAdmin, reviewsController.deleteReview);
 
+
 module.exports = router;

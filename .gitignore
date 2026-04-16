@@ -1,5 +1,4 @@
 node_modules/
-package-lock.json # Optional: Some teams commit this, some don't. Usually safe to commit.
 
 .env
 .env.local
@@ -27,3 +26,7 @@ docker-compose.override.yml
 .vscode/
 .idea/
 *.swp
+
+*.pem
+*.crt
+*.key

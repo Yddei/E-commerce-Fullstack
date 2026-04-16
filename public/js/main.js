@@ -314,3 +314,34 @@ function updateCartUI() {
         });
     }
 }
+
+//========================================
+//ticket
+//========================================
+document.getElementById('ticketForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const category = document.getElementById('ticketCategory').value;
+    const comment = document.getElementById('ticketComment').value;
+    const token = localStorage.getItem('token'); // Get the JWT
+
+    try {
+        const response = await fetch('/api/tickets/submit', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify({ category, comment })
+        });
+
+        if (response.ok) {
+            showToast("Ticket submitted to Admin!", "success");
+            document.getElementById('ticketForm').reset();
+            bootstrap.Modal.getInstance(document.getElementById('ticketModal')).hide();
+        } else {
+            showToast("Failed to submit ticket. Are you logged in?", "error");
+        }
+    } catch (err) {
+        showToast("Server error.", "error");
+    }
+});

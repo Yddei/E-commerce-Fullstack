@@ -44,7 +44,12 @@ CREATE TABLE IF NOT EXISTS order_items (
     price_at_purchase DECIMAL(10, 2) NOT NULL
 );
 
---delete after 1 run
-ALTER TABLE users 
-ADD COLUMN reset_otp VARCHAR(6),
-ADD COLUMN reset_otp_expires TIMESTAMP;
+--ticketing system
+CREATE TABLE IF NOT EXISTS tickets (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    category VARCHAR(50) NOT NULL,
+    comment TEXT NOT NULL,
+    status VARCHAR(20) DEFAULT 'Open',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -116,6 +116,9 @@
                     <li class="nav-item ms-2" id="register-nav-item">
                         <button class="btn btn-dark btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
                     </li>
+                    <li>
+                        <button class="btn btn-outline-brand" data-bs-toggle="modal" data-bs-target="#ticketModal">Need Help?</button>
+                    </li>
                     <li class="nav-item ms-2">
                     <button class="btn btn-link nav-link position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar">
                         Cart
@@ -338,6 +341,35 @@
                     
                     <div class="text-center mt-3">
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ticketModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header bg-dark text-white rounded-0">
+                    <h5 class="modal-title">Submit a Support Ticket</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="ticketForm">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">CATEGORY</label>
+                            <select class="form-select rounded-0" id="ticketCategory" required>
+                                <option value="" disabled selected>Select an issue...</option>
+                                <option value="Order Issue">Order Issue</option>
+                                <option value="Payment Problem">Payment Problem</option>
+                                <option value="Bug Report">Bug Report</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted small">COMMENTS</label>
+                            <textarea class="form-control rounded-0" id="ticketComment" rows="4" required placeholder="Describe your issue..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-brand w-100">SUBMIT TICKET</button>
+                    </form>
                 </div>
             </div>
         </div>
